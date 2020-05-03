@@ -3,6 +3,7 @@
 import re
 import sys
 import math
+from openlocationcode import openlocationcode as olc
 
 
 class Maiden:
@@ -129,14 +130,11 @@ class Maiden:
 
 
 if __name__ == "__main__":
-    loc1 = "PK04lc68"
+    my_loc = "PK04lc68dj"
     maiden = Maiden()
 
-    pos_a = maiden.maiden2latlon(loc1)
-    print("Input locator")
-    line = sys.stdin.readline()
-    pos_b = maiden.maiden2latlon(line)
-    print(maiden.dgdec2dgmn(pos_a))
-    print(maiden.dgdec2dgmn(pos_b))
-    betw = maiden.dist_az(pos_a, pos_b)
-    print(f"Distance: {betw[0]} km Azimuth: {betw[1]} deg")
+    pos_a = maiden.maiden2latlon(my_loc)
+    print(f"My locator: {my_loc}")
+    print(f"My pos: {maiden.dgdec2dgmn(pos_a)}")
+    opl = olc.encode(pos_a[0], pos_a[1])
+    print(f"Google map: {opl}")
