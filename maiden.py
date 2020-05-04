@@ -1,9 +1,5 @@
-#!/usr/bin/python3
-
 import re
-import sys
 import math
-from openlocationcode import openlocationcode as olc
 
 
 class Maiden:
@@ -21,25 +17,6 @@ class Maiden:
         pass
 
     @staticmethod
-    def dgdec2dgmn(latlon: tuple) -> tuple:
-        """
-        Convert decimal degrees in (deg min dir)
-        :param latlon: latitude and longitude in degreed
-        :return: latitude and longitude in (deg min dir)
-        """
-        latitude: tuple = (
-            abs(int(latlon[0])),
-            round(abs(latlon[0] % int(latlon[0])) * 60, 3),
-            "N" if latlon[0] > 0 else "S"
-        )
-        longitude: tuple = (
-            abs(int(latlon[1])),
-            round(abs(latlon[1] % int(latlon[1])) * 60, 3),
-            "E" if latlon[1] > 0 else "W"
-        )
-        return latitude, longitude
-
-    @staticmethod
     def latlon2maiden(latlon: tuple, loc_len: int) -> str:
         """
         Calculates maiden locater based on position
@@ -49,7 +26,7 @@ class Maiden:
         """
         if not 4 <= loc_len <= 10:
             return ""  # between 4 to 10 chars
-        elif divmod(loc_len, 2)[1] > 0:  # must be even
+        if divmod(loc_len, 2)[1] > 0:  # must be even
             loc_len = 2 * divmod(loc_len, 2)[0]
         # main square 20 dg by 10 deg
         la = divmod(latlon[0] + 90, 10)
@@ -104,7 +81,7 @@ class Maiden:
         lon *= 2
         lon += self.f_10_24(i) / 2  # Centre of the field
         lat += self.f_10_24(i) / 2
-        return lat, lon
+        return round(lat, 6), round(lon, 6)
 
     @staticmethod
     def dist_az(pos1: tuple, pos2: tuple) -> tuple:
@@ -129,12 +106,41 @@ class Maiden:
         return dist, azimuth
 
 
-if __name__ == "__main__":
-    my_loc = "PK04lc68dj"
-    maiden = Maiden()
+class Geopos():
+    def __init__(self, pos: tuple):
+        pos_dms = self.dgdec2dgmn(pos)
+        self.latDeg = pos_dms[0][0]
+        self.latMin = pos_dms[0][1]
+        self.latSec = pos_dms[0][2]
+        self.latDir = pos_dms[0][3]
+        self.lonDeg = pos_dms[1][0]
+        self.lonMin = pos_dms[1][1]
+        self.lonSec = pos_dms[1][2]
+        self.lonDir = pos_dms[1][3]
 
-    pos_a = maiden.maiden2latlon(my_loc)
-    print(f"My locator: {my_loc}")
-    print(f"My pos: {maiden.dgdec2dgmn(pos_a)}")
-    opl = olc.encode(pos_a[0], pos_a[1])
-    print(f"Google map: {opl}")
+    @staticmethod
+    def dgdec2dgmn(latlon: tuple) -> tuple:
+        """
+        Convert decimal degrees in (deg min sec dir)
+        :param latlon: latitude and longitude in degree
+        :return: latitude and longitude in (deg min dir)
+        """
+        latitude: tuple = (
+            round(divmod(abs(latlon[0]), 1)[0]),
+            round(60 * divmod(abs(latlon[0]), 1)[1]),
+            round(divmod(3600 * divmod(abs(latlon[0]), 1)[1], 60)[1]),
+            "N" if latlon[0] > 0 else "S"
+        )
+        longitude: tuple = (
+            round(divmod(abs(latlon[1]), 1)[0]),
+            round(60 * divmod(abs(latlon[1]), 1)[1]),
+            round(divmod(3600 * divmod(abs(latlon[1]), 1)[1], 60)[1]),
+            "E" if latlon[1] > 0 else "W"
+        )
+        return latitude, longitude
+
+    def __repr__(self):
+        return str(
+            [self.latDeg, self.latMin, self.latSec, self.latDir,
+             self.lonDeg, self.lonMin, self.lonSec, self.lonDir]
+        )
