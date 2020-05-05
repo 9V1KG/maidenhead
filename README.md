@@ -1,17 +1,25 @@
 # Maidenhead Locator Functions
 These scripts contains useful functions related to the maidenhead locator
 used in ham radio operations.
-(c) 9V1KG 
-## Scripts
-    1. calc_dist.py: distance and azimuth between teo locators
-    2. geo2loc.py: Calculates locator based on lat/lon dec. 
-       (4 to 10 characters)
-    3. conv_google.py: Calculates locator from google plusd code
-       (4 to 10 character)
+(c) 9V1KG
 
-To calculate Google pluse code, the module openlocationcode need to 
-be installed:
+## Scripts
+    1. maiden.py
+    2. locdist.py
+
+## maiden.py
+The script contains the class with functions to calculate the maidenhead locator (4 to 10 char), 
+geographical position and/or the open location code (Google plus code).
+Run the script and input position, locator or open location code to ger the 
+result.
+
+To calculate Google plus code the openlocationcode module needs to be installed:
 
     pip install openlocationcode
 
-See code for further details.
+## locdist.py
+This script calculates the distance and beam direction (azimuth) between 
+two locator positions. Put your own locator as constant in maiden.py
+
+    MY_LOC = "XXddxxddxx"
+    

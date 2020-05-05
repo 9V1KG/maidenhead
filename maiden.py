@@ -9,6 +9,40 @@
 """
 import re
 import math
+from openlocationcode import openlocationcode as olc
+
+switch = ["none", "Position: ", "Locator: ", "Plus code: "]
+MY_LOC = "PK04lc68dj"
+
+
+def line_input():
+    g_plus_full = re.compile(  # Google full plus code input validation
+        r"(^|\s)([23456789C][23456789CFGHJMPQRV][23456789CFGHJMPQRVWX]{6}"
+        r"\+[23456789CFGHJMPQRVWX]{2,3})(\s|$)"
+    )
+    sw = 0
+    while sw == 0:
+        line = input("Input Lat,Lon, Locator or full Google Plus Code: ")
+        lat_lon = re.findall(r'(-?\d{1,3}\.?\d*)\s*,\s*(-?\d{1,3}\.?\d*)', line)
+        if lat_lon:
+            l_inp = float(lat_lon[0][0]), float(lat_lon[0][1])
+            if -90 >= l_inp[0] >= 90 and -180 >= l_inp[1] >= 180:
+                break
+            sw = 1  # ll2loc
+            break
+        else:
+            m_loc = re.match(r"([A-Ra-r]{2}\d\d)(([A-Za-z]{2})(\d\d)?){0,2}", line)
+            if m_loc:
+                l_inp = m_loc.group()
+                sw = 2  # loc2olc
+                break
+            olc = g_plus_full.match(line)
+            if olc:
+                l_inp = olc.group()
+                sw = 3 # olc2loc
+                break
+        print("Invalid input")
+    return sw, l_inp
 
 
 class Maiden:
@@ -85,9 +119,10 @@ class Maiden:
         for i, (x_1, x_2) in enumerate(pairs):
             lon += self.f_10_24(i) * x_1
             lat += self.f_10_24(i) * x_2
-        lon *= 2
-        lon += self.f_10_24(i) / 2  # Centre of the field
-        lat += self.f_10_24(i) / 2
+        else:
+            lon *= 2
+            lon += self.f_10_24(i) / 2  # Centre of the field
+            lat += self.f_10_24(i) / 2
         return round(lat, 6), round(lon, 6)
 
     @staticmethod
@@ -157,3 +192,56 @@ class Geodg2dms():
             [self.lat_deg, self.lat_min, self.lat_sec, self.lat_dir,
              self.lon_deg, self.lon_min, self.lon_sec, self.lon_dir]
         )
+
+
+if __name__ == "__main__":
+    maiden = Maiden()
+    print("""
+Maidenhead locator program by 9V1KG
+
+Input geographical position, maidenhead locator or Google plus code
+to convert. Locator is calculated with 10 characters.
+https://github.com/9V1KG/Maiden
+        """
+    )
+    get_in = line_input()
+    if get_in[0] == 1:
+        print("\r\nConvert geographic location to Maidenhead locator")
+        print(switch[get_in[0]], get_in[1])
+        p = Geodg2dms(get_in[1])
+        print(f"{p.lat_deg} {p.lat_min}'{p.lat_sec}\" {p.lat_dir},"
+              f" {p.lon_deg} {p.lon_min}'{p.lon_sec}\" {p.lon_dir}"
+              )
+        loc = maiden.latlon2maiden(get_in[1], 10)
+        print(f"QTH Locator: {loc[:6]} {loc[6:]}")
+        opl = olc.encode(get_in[1][0],get_in[1][1])
+        print(f"Plus code:   {opl}")
+    elif get_in[0] == 2:
+        print("\r\nConvert Maidenhead locator to geographic location")
+        print(switch[get_in[0]], get_in[1])
+        pos_b = maiden.maiden2latlon(get_in[1])
+        print(f"Result: {pos_b} Lat/Lon")
+        pdms_b = Geodg2dms(pos_b)
+        print(f"Result: "
+              f"{pdms_b.lat_deg} {pdms_b.lat_min}'{pdms_b.lat_sec}\"{pdms_b.lat_dir}, "
+              f"{pdms_b.lon_deg} {pdms_b.lon_min}'{pdms_b.lon_sec}\"{pdms_b.lon_dir}"
+              )
+        opl = olc.encode(pos_b[0], pos_b[1])
+        print(f"Plus code: {opl}")
+    elif get_in[0] == 3:
+        print("\r\nCalculate Maidenhead locator from Google plus code")
+        print(switch[get_in[0]], get_in[1])
+        # pos_a = maiden.maiden2latlon(MY_LOC)
+        # fc = olc.recoverNearest(get_in[1], pos_a[0], pos_a[1])
+        # print(f"Google full code: {fc}")
+        res = olc.decode(get_in[1])
+        print(f"Lat: {res.latitudeCenter}, Lon: {res.longitudeCenter}")
+        pdms_b = Geodg2dms((res.latitudeCenter, res.longitudeCenter))
+        print(f"Result: "
+              f"{pdms_b.lat_deg} {pdms_b.lat_min}'{pdms_b.lat_sec}\"{pdms_b.lat_dir}, "
+              f"{pdms_b.lon_deg} {pdms_b.lon_min}'{pdms_b.lon_sec}\"{pdms_b.lon_dir}"
+              )
+        loc = maiden.latlon2maiden((res.latitudeCenter, res.longitudeCenter), 10)
+        print(f"Locator: {loc[:6]} {loc[6:]}")
+    else:
+        pass
