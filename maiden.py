@@ -12,7 +12,6 @@ import math
 from openlocationcode import openlocationcode as olc
 
 switch = ["none", "Position: ", "Locator: ", "Plus code: "]
-MY_LOC = "PK04lc68dj"
 
 
 def line_input() -> tuple:

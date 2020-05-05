@@ -19,7 +19,7 @@ To calculate Google plus code the openlocationcode module needs to be installed:
 
 ## locdist.py
 This script calculates the distance and beam direction (azimuth) between 
-two locator positions. Put your own locator as constant in maiden.py
+two locator positions. Put your own locator as constant.
 
     MY_LOC = "XXddxxddxx"
     
