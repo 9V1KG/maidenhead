@@ -15,34 +15,37 @@ switch = ["none", "Position: ", "Locator: ", "Plus code: "]
 MY_LOC = "PK04lc68dj"
 
 
-def line_input():
+def line_input() -> tuple:
+    """
+    Returns tuple with switch (1,2,3) and extracted position, locator or olc
+    """
     g_plus_full = re.compile(  # Google full plus code input validation
         r"(^|\s)([23456789C][23456789CFGHJMPQRV][23456789CFGHJMPQRVWX]{6}"
         r"\+[23456789CFGHJMPQRVWX]{2,3})(\s|$)"
     )
-    sw = 0
-    while sw == 0:
-        line = input("Input Lat,Lon, Locator or full Google Plus Code: ")
+    selection = 0
+    l_inp = ""
+    while selection == 0:
+        line = input("Input Lat,Lon, Locator \r\nor full Google Plus Code: ")
         lat_lon = re.findall(r'(-?\d{1,3}\.?\d*)\s*,\s*(-?\d{1,3}\.?\d*)', line)
         if lat_lon:
             l_inp = float(lat_lon[0][0]), float(lat_lon[0][1])
             if -90 >= l_inp[0] >= 90 and -180 >= l_inp[1] >= 180:
                 break
-            sw = 1  # ll2loc
+            selection = 1  # ll2loc
             break
-        else:
-            m_loc = re.match(r"([A-Ra-r]{2}\d\d)(([A-Za-z]{2})(\d\d)?){0,2}", line)
-            if m_loc:
-                l_inp = m_loc.group()
-                sw = 2  # loc2olc
-                break
-            olc = g_plus_full.match(line)
-            if olc:
-                l_inp = olc.group()
-                sw = 3 # olc2loc
-                break
+        m_loc = re.match(r"([A-Ra-r]{2}\d\d)(([A-Za-z]{2})(\d\d)?){0,2}", line)
+        if m_loc:
+            l_inp = m_loc.group()
+            selection = 2  # loc2olc
+            break
+        o_lc = g_plus_full.match(line)
+        if o_lc:
+            l_inp = o_lc.group()
+            selection = 3 # olc2loc
+            break
         print("Invalid input")
-    return sw, l_inp
+    return selection, l_inp
 
 
 class Maiden:
@@ -97,19 +100,19 @@ class Maiden:
         """
         return 10 ** (1 - int((j + 1) / 2)) * 24 ** int(-j / 2)
 
-    def maiden2latlon(self, loc: str) -> tuple:
+    def maiden2latlon(self, loctr: str) -> tuple:
         """
         Calculates latitude, longitude in decimal degrees,
         centre of the field depending on resolution
-        :param loc: Maidenhead locator 4 up to 10 characters
+        :param loctr: Maidenhead locator 4 up to 10 characters
         :return: lon, lat (dg decimal) or None, None (invalid input)
         """
         lon = lat = -90
         # check validity of input
-        if not re.match(r"([A-Ra-r]{2}\d\d)(([A-Za-z]{2})(\d\d)?){0,2}", loc):
+        if not re.match(r"([A-Ra-r]{2}\d\d)(([A-Za-z]{2})(\d\d)?){0,2}", loctr):
             return None, None
-        lets = re.findall(r'([A-Xa-x]{2})', loc)  # all letter pairs
-        nums = re.findall(r'(\d)(\d)', loc)  # all number pairs
+        lets = re.findall(r'([A-Xa-x]{2})', loctr)  # all letter pairs
+        nums = re.findall(r'(\d)(\d)', loctr)  # all number pairs
         vals = [(ord(x[0].upper()) - ord("A"),
                  ord(x[1].upper()) - ord("A")) for x in lets]
         nums = [(int(x[0]), int(x[1])) for x in nums]
@@ -119,10 +122,9 @@ class Maiden:
         for i, (x_1, x_2) in enumerate(pairs):
             lon += self.f_10_24(i) * x_1
             lat += self.f_10_24(i) * x_2
-        else:
-            lon *= 2
-            lon += self.f_10_24(i) / 2  # Centre of the field
-            lat += self.f_10_24(i) / 2
+        lon *= 2
+        lon += self.f_10_24(i) / 2  # Centre of the field
+        lat += self.f_10_24(i) / 2
         return round(lat, 6), round(lon, 6)
 
     @staticmethod
@@ -154,7 +156,11 @@ class Maiden:
         return dist, azimuth
 
 
-class Geodg2dms():
+class Geodg2dms:
+    """
+        Returns position (latitude & longitude
+        in degrees, minutes and seconds
+    """
     def __init__(self, pos: tuple):
         pos_dms = self.dg2dms(pos)
         self.lat_deg = pos_dms[0][0]
@@ -202,8 +208,7 @@ Maidenhead locator program by 9V1KG
 Input geographical position, maidenhead locator or Google plus code
 to convert. Locator is calculated with 10 characters.
 https://github.com/9V1KG/Maiden
-        """
-    )
+        """)
     get_in = line_input()
     if get_in[0] == 1:
         print("\r\nConvert geographic location to Maidenhead locator")
@@ -214,7 +219,7 @@ https://github.com/9V1KG/Maiden
               )
         loc = maiden.latlon2maiden(get_in[1], 10)
         print(f"QTH Locator: {loc[:6]} {loc[6:]}")
-        opl = olc.encode(get_in[1][0],get_in[1][1])
+        opl = olc.encode(get_in[1][0], get_in[1][1])
         print(f"Plus code:   {opl}")
     elif get_in[0] == 2:
         print("\r\nConvert Maidenhead locator to geographic location")
@@ -243,5 +248,3 @@ https://github.com/9V1KG/Maiden
               )
         loc = maiden.latlon2maiden((res.latitudeCenter, res.longitudeCenter), 10)
         print(f"Locator: {loc[:6]} {loc[6:]}")
-    else:
-        pass
