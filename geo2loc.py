@@ -1,5 +1,13 @@
+"""
+    Calculates maidenhead locator from geographical position
+    Author: 9V1KG Klaus D Goepel
+    https://klsin.bpmsg.com
+    https://github.com/9V1KG/Maiden
+    Created: 2020-05-02
+    License: http://www.fsf.org/copyleft/gpl.html
+"""
 import re
-from maiden import Maiden, Geopos
+from maiden import Maiden, Geodg2dms
 from openlocationcode import openlocationcode as olc
 
 
@@ -20,10 +28,10 @@ while not ll:
         break
     print("Invalid input, Lat,Lon (dec): ")
 print(f"Position:    {lat} {lon}")
-p = Geopos((lat, lon))
+p = Geodg2dms((lat, lon))
 print( 13 * " "
-       + f"{p.latDeg} {p.latMin}'{p.latSec}\" {p.latDir}, "
-         f"{p.lonDeg} {p.lonMin}'{p.lonSec}\" {p.lonDir}"
+       + f"{p.lat_deg} {p.lat_min}'{p.lat_sec}\" {p.lat_dir}, "
+         f"{p.lon_deg} {p.lon_min}'{p.lon_sec}\" {p.lon_dir}"
 )
 loc = maiden.latlon2maiden((lat, lon), 10)
 print(f"QTH Locator: {loc[:6]} {loc[6:]}")

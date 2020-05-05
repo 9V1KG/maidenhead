@@ -1,12 +1,17 @@
 # Maidenhead Locator Functions
-This script contains useful functions related to the maidenhead locator
+These scripts contains useful functions related to the maidenhead locator
 used in ham radio operations.
 (c) 9V1KG 
-## Functions
-    1. dgdec2dgmn: Convert from decimal deg to deg, min
-    2. latlon2maiden: Calculates locator based on lat/lon dec. 
+## Scripts
+    1. calc_dist.py: distance and azimuth between teo locators
+    2. geo2loc.py: Calculates locator based on lat/lon dec. 
        (4 to 10 characters)
-    3. maiden2latlon: Calculates lat/lon dec. from locator
+    3. conv_google.py: Calculates locator from google plusd code
        (4 to 10 character)
-    4. dist_az: Calculates distance and heading from two positions
+
+To calculate Google pluse code, the module openlocationcode need to 
+be installed:
+
+    pip install openlocationcode
+
 See code for further details.
