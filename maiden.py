@@ -122,8 +122,8 @@ class Maiden:
             lon += self.f_10_24(i) * x_1
             lat += self.f_10_24(i) * x_2
         lon *= 2
-        lon += self.f_10_24(i) / 2  # Centre of the field
-        lat += self.f_10_24(i) / 2
+        lon += self.f_10_24(len(pairs)-1) / 2  # Centre of the field
+        lat += self.f_10_24(len(pairs)-1) / 2
         return round(lat, 6), round(lon, 6)
 
     @staticmethod

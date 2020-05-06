@@ -3,7 +3,6 @@ Unit tests for module maiden
 Maidenhead locator funtions
 """
 from unittest import TestCase
-from unittest.mock import patch, PropertyMock
 from maiden import Maiden, Geodg2dms
 
 
