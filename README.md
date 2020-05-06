@@ -10,7 +10,7 @@ used in ham radio operations.
 ## maiden.py
 The script contains the class with functions to calculate the maidenhead locator (4 to 10 char), 
 geographical position and/or the open location code (Google plus code).
-Run the script and input position, locator or open location code to ger the 
+Run the script and input position, locator or open location code to get the 
 result.
 
 To calculate Google plus code the openlocationcode module needs to be installed:

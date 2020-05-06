@@ -180,13 +180,13 @@ class Geodg2dms:
         """
         latitude: tuple = (
             round(divmod(abs(latlon[0]), 1)[0]),
-            round(60 * divmod(abs(latlon[0]), 1)[1]),
+            int(60 * divmod(abs(latlon[0]), 1)[1]),
             round(divmod(3600 * divmod(abs(latlon[0]), 1)[1], 60)[1]),
             "N" if latlon[0] > 0 else "S"
         )
         longitude: tuple = (
             round(divmod(abs(latlon[1]), 1)[0]),
-            round(60 * divmod(abs(latlon[1]), 1)[1]),
+            int(60 * divmod(abs(latlon[1]), 1)[1]),
             round(divmod(3600 * divmod(abs(latlon[1]), 1)[1], 60)[1]),
             "E" if latlon[1] > 0 else "W"
         )
