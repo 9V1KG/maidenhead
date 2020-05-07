@@ -1,6 +1,6 @@
 """
 Runs mhconv when started as module
 """
-import maidenhead
+from maidenhead import mhconv
 if __name__ == "__main__":
-    maidenhead.maiden.mhconv.main()
+    mhconv.main()
