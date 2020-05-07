@@ -10,8 +10,6 @@
 import re
 import math
 
-switch = ["none", "Position: ", "Locator: ", "Plus code: "]
-
 
 def line_input() -> tuple:
     """

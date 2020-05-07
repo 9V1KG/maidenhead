@@ -1,11 +1,25 @@
+"""
+    Main program for Module maidenhead
+    Input geographical position, locator or Google plus code
+    Author: 9V1KG Klaus D Goepel
+    https://klsin.bpmsg.com
+    https://github.com/9V1KG/Maiden
+    Created On      : 2020-05-02
+    Last Modified On: 2020-05-07
+    License: http://www.fsf.org/copyleft/gpl.html
+"""
 from openlocationcode import openlocationcode as olc
-import Maiden
-from Maiden import Geodg2dms
+import maidenhead
+from maidenhead import Geodg2dms
 
 switch = ["none", "Position: ", "Locator: ", "Plus code: "]
 
-if __name__ == "__main__":
-    mhl = Maiden.Maiden()
+
+def main():
+    """
+    Main program to convert position, olc or locator
+    """
+    mhl = maidenhead.Maiden()
     print("""
 Maidenhead locator program by 9V1KG
 
@@ -13,13 +27,13 @@ Input geographical position, maidenhead locator or Google plus code
 to convert. Locator is calculated with 10 characters.
 https://github.com/9V1KG/Maiden
         """)
-    get_in = Maiden.maiden.line_input()
+    get_in = maidenhead.maiden.line_input()
     if get_in[0] == 1:
         print("\r\nConvert geographic location to Maidenhead locator")
         print(switch[get_in[0]], get_in[1])
-        p = Geodg2dms(get_in[1])
-        print(f"{p.lat_deg} {p.lat_min}'{p.lat_sec}\" {p.lat_dir},"
-              f" {p.lon_deg} {p.lon_min}'{p.lon_sec}\" {p.lon_dir}"
+        p_dms = Geodg2dms(get_in[1])
+        print(f"{p_dms.lat_deg} {p_dms.lat_min}'{p_dms.lat_sec}\" {p_dms.lat_dir},"
+              f" {p_dms.lon_deg} {p_dms.lon_min}'{p_dms.lon_sec}\" {p_dms.lon_dir}"
               )
         loc = mhl.latlon2maiden(get_in[1], 10)
         print(f"QTH Locator: {loc[:6]} {loc[6:]}")
@@ -52,3 +66,7 @@ https://github.com/9V1KG/Maiden
               )
         loc = mhl.latlon2maiden((res.latitudeCenter, res.longitudeCenter), 10)
         print(f"Locator: {loc[:6]} {loc[6:]}")
+
+
+if __name__ == "__main__":
+    main()

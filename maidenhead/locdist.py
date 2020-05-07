@@ -9,13 +9,16 @@
 import sys
 import re
 from openlocationcode import openlocationcode as olc
-from Maiden.maiden import Maiden, Geodg2dms
+from maidenhead.maiden import Maiden, Geodg2dms
 
 MY_LOC = "PK04lc68dj"
 
 maiden = Maiden()  # Initialize class
-print("Calculate distance and azimuth from to locator positions")
-
+print("""
+Maidenhead locator program by 9V1KG
+https://github.com/9V1KG/Maiden
+        """)
+print("Calculates distance and azimuth from your locator (\"MY_LOC\")")
 print(f"My locator: {MY_LOC}")
 pos_a = maiden.maiden2latlon(MY_LOC)
 print(f"My pos: {pos_a} Lat/Lon")
@@ -27,7 +30,7 @@ print(f"My pos: "
 opl = olc.encode(pos_a[0], pos_a[1])
 print(f"Google map: {opl}\r\n")
 
-line = input("Input Maidenhead Locator: ")
+line = input("Input Maidenhead Locator (4 to 10 char): ")
 if not re.match(r"([A-Ra-r]{2}\d\d)(([A-Za-z]{2})(\d\d)?){0,2}", line):
     print("Locator has 2 to 5 character/number pairs, like PK04lc")
     sys.exit(1)

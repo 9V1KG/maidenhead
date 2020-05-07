@@ -3,7 +3,7 @@ Unit tests for module maiden
 Maidenhead locator funtions
 """
 from unittest import TestCase
-from Maiden.maiden import Maiden, Geodg2dms
+from maidenhead.maiden import Maiden, Geodg2dms
 
 
 class TestMaiden(TestCase):

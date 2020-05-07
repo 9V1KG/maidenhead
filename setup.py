@@ -2,9 +2,9 @@ from setuptools import setup
 
 requirements = "openlocationcode"
 setup(
-    name="Maiden",
+    name="maidenhead",
     version="0.0a0",
-    packages=["Maiden"],
+    packages=["maidenhead"],
     url="https://github.com/9V1KG/maidenhead",
     license="Please check with author",
     author="9V1KG",
