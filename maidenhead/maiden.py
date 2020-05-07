@@ -9,6 +9,7 @@
 """
 import re
 import math
+from maidenhead import mhconv
 
 
 def line_input() -> tuple:
