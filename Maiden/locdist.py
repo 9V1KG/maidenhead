@@ -9,7 +9,7 @@
 import sys
 import re
 from openlocationcode import openlocationcode as olc
-from maiden import Maiden, Geodg2dms
+from Maiden.maiden import Maiden, Geodg2dms
 
 MY_LOC = "PK04lc68dj"
 

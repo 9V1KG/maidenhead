@@ -3,7 +3,7 @@ Unit tests for module maiden
 Maidenhead locator funtions
 """
 from unittest import TestCase
-from maiden import Maiden, Geodg2dms
+from Maiden.maiden import Maiden, Geodg2dms
 
 
 class TestMaiden(TestCase):
@@ -48,7 +48,7 @@ class TestMaiden(TestCase):
     def test_dg2dms(self):
         self.assertEqual(Geodg2dms.dg2dms((14.5+3/360, 120.5)), ((14, 30, 30, 'N'), (120, 30, 0, 'E')))
         self.assertEqual(Geodg2dms.dg2dms((-14.5-3/360, 120.5+3/360)), ((14, 30, 30, 'S'), (120, 30, 30, 'E')))
-        self.assertEqual(Geodg2dms.dg2dms((-14.5, 120.5-3/360)), ((14, 30, 0, 'S'), (120, 29, 30, 'E')))
+        self.assertEqual(Geodg2dms.dg2dms((-14.5+3/360, 120.5-3/360)), ((14, 29, 30, 'S'), (120, 29, 30, 'E')))
         self.assertEqual(Geodg2dms.dg2dms((14.5, -120.5)), ((14, 30, 0, 'N'), (120, 30, 0, 'W')))
         self.assertEqual(Geodg2dms.dg2dms((-14.5, -120.5)), ((14, 30, 0, 'S'), (120, 30, 0, 'W')))
 

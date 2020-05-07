@@ -1,0 +1,2 @@
+openlocationcode~=1.0.1
+setuptools~=46.1.3
