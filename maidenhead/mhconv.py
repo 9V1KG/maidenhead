@@ -10,8 +10,6 @@
 """
 from openlocationcode import openlocationcode as olc
 import maidenhead
-from maidenhead import Geodg2dms
-from maidenhead import mhconv
 
 switch = ["none", "Position: ", "Locator: ", "Plus code: "]
 
@@ -32,7 +30,7 @@ https://github.com/9V1KG/Maiden
     if get_in[0] == 1:
         print("\r\nConvert geographic location to Maidenhead locator")
         print(switch[get_in[0]], get_in[1])
-        p_dms = Geodg2dms(get_in[1])
+        p_dms = maidenhead.Geodg2dms(get_in[1])
         print(f"{p_dms.lat_deg} {p_dms.lat_min}'{p_dms.lat_sec}\" {p_dms.lat_dir},"
               f" {p_dms.lon_deg} {p_dms.lon_min}'{p_dms.lon_sec}\" {p_dms.lon_dir}"
               )
@@ -45,7 +43,7 @@ https://github.com/9V1KG/Maiden
         print(switch[get_in[0]], get_in[1])
         pos_b = mhl.maiden2latlon(get_in[1])
         print(f"Result: {pos_b} Lat/Lon")
-        pdms_b = Geodg2dms(pos_b)
+        pdms_b = maidenhead.Geodg2dms(pos_b)
         print(f"Result: "
               f"{pdms_b.lat_deg} {pdms_b.lat_min}'{pdms_b.lat_sec}\"{pdms_b.lat_dir}, "
               f"{pdms_b.lon_deg} {pdms_b.lon_min}'{pdms_b.lon_sec}\"{pdms_b.lon_dir}"
@@ -60,7 +58,7 @@ https://github.com/9V1KG/Maiden
         # print(f"Google full code: {fc}")
         res = olc.decode(get_in[1])
         print(f"Lat: {res.latitudeCenter}, Lon: {res.longitudeCenter}")
-        pdms_b = Geodg2dms((res.latitudeCenter, res.longitudeCenter))
+        pdms_b = maidenhead.Geodg2dms((res.latitudeCenter, res.longitudeCenter))
         print(f"Result: "
               f"{pdms_b.lat_deg} {pdms_b.lat_min}'{pdms_b.lat_sec}\"{pdms_b.lat_dir}, "
               f"{pdms_b.lon_deg} {pdms_b.lon_min}'{pdms_b.lon_sec}\"{pdms_b.lon_dir}"
@@ -70,4 +68,4 @@ https://github.com/9V1KG/Maiden
 
 
 if __name__ == "__main__":
-    mhconv.main()
+    maidenhead.mhconv.main()
