@@ -194,3 +194,7 @@ class Geodg2dms:
             [self.lat_deg, self.lat_min, self.lat_sec, self.lat_dir,
              self.lon_deg, self.lon_min, self.lon_sec, self.lon_dir]
         )
+
+
+if __name__ == "__main__":
+    mhconv.main()

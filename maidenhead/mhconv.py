@@ -11,6 +11,7 @@
 from openlocationcode import openlocationcode as olc
 import maidenhead
 from maidenhead import Geodg2dms
+from maidenhead import mhconv
 
 switch = ["none", "Position: ", "Locator: ", "Plus code: "]
 
@@ -69,4 +70,4 @@ https://github.com/9V1KG/Maiden
 
 
 if __name__ == "__main__":
-    main()
+    mhconv.main()
