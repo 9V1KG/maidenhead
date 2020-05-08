@@ -19,6 +19,16 @@ two locator positions. Put your own locator in as a constant.
 
     MY_LOC = "XXddxxddxx"
     
+## 3. maiden.py
+Module with class and functions for locator conversions.
+    
+    latlon2maiden  latitude/longitude to locator
+    maiden2latlon  locator to latitude/longitude
+    dist_az        locator to distance/azimuth
+    dg2dms         latitude/longitude dec to deg,min,sec
+    
+
+    
 ## Installation
 
 Install with its own virtual environment
@@ -36,16 +46,3 @@ Run conversion and distance calculation
     python -m maidenhead
     # run distance/azimuth calculation
     python maidenhead/locdist.py
-
-    
-    
-    
-    
-## 3. maiden.py
-Module with class and functions for locator conversions.
-    
-    latlon2maiden  latitude/longitude to locator
-    maiden2latlon  locator to latitude/longitude
-    dist_az        locator to distance/azimuth
-    dg2dms         latitude/longitude dec to deg,min,sec
-    
