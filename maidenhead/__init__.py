@@ -1,4 +1,4 @@
 """
     Initialization
 """
-from .maiden import Maiden, Geodg2dms
+from maidenhead.maiden import Maiden, Geodg2dms

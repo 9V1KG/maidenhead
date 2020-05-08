@@ -9,33 +9,35 @@
 import sys
 import re
 from openlocationcode import openlocationcode as olc
+import maidenhead.maiden
 from maidenhead.maiden import Maiden, Geodg2dms
 
 MY_LOC = "PK04lc68dj"
+COL = maidenhead.maiden.COL
 
-maiden = Maiden()  # Initialize class
+MAIDEN = Maiden()  # Initialize class
 print("""
 Maidenhead locator program by 9V1KG
 https://github.com/9V1KG/Maiden
         """)
-print("Calculates distance and azimuth from your locator (\"MY_LOC\")")
+print(f"{COL.green}Calculates distance and azimuth from your locator (\"MY_LOC\"){COL.end}")
 print(f"My locator: {MY_LOC}")
-pos_a = maiden.maiden2latlon(MY_LOC)
-print(f"My pos: {pos_a} Lat/Lon")
-pdms_a = Geodg2dms(pos_a)
+POS_A = MAIDEN.maiden2latlon(MY_LOC)
+print(f"My pos: {POS_A} Lat/Lon")
+PDMS_A = Geodg2dms(POS_A)
 print(f"My pos: "
-      f"{pdms_a.lat_deg} {pdms_a.lat_min}'{pdms_a.lat_sec}\"{pdms_a.lat_dir}, "
-      f"{pdms_a.lon_deg} {pdms_a.lon_min}'{pdms_a.lon_sec}\"{pdms_a.lon_dir}"
+      f"{PDMS_A.lat_deg} {PDMS_A.lat_min}'{PDMS_A.lat_sec}\"{PDMS_A.lat_dir}, "
+      f"{PDMS_A.lon_deg} {PDMS_A.lon_min}'{PDMS_A.lon_sec}\"{PDMS_A.lon_dir}"
       )
-opl = olc.encode(pos_a[0], pos_a[1])
+opl = olc.encode(POS_A[0], POS_A[1])
 print(f"Google map: {opl}\r\n")
 
 line = input("Input Maidenhead Locator (4 to 10 char): ")
 if not re.match(r"([A-Ra-r]{2}\d\d)(([A-Za-z]{2})(\d\d)?){0,2}", line):
     print("Locator has 2 to 5 character/number pairs, like PK04lc")
     sys.exit(1)
-pos_b = maiden.maiden2latlon(line)
-print(f"Result: {pos_b} Lat/Lon")
+pos_b = MAIDEN.maiden2latlon(line)
+print(f"Result: {COL.yellow}{pos_b}{COL.end} Lat/Lon")
 pdms_b = Geodg2dms(pos_b)
 print(f"Result: "
       f"{pdms_b.lat_deg} {pdms_b.lat_min}'{pdms_b.lat_sec}\"{pdms_b.lat_dir}, "
@@ -43,5 +45,6 @@ print(f"Result: "
       )
 opl = olc.encode(pos_b[0], pos_b[1])
 print(f"Google map: {opl}")
-betw = maiden.dist_az(pos_a, pos_b)
-print(f"Distance: {betw[0]} km Azimuth: {betw[1]} deg")
+betw = MAIDEN.dist_az(POS_A, pos_b)
+print(f"Distance: {COL.yellow}{betw[0]} km{COL.end} "
+      f"Azimuth: {COL.yellow}{betw[1]} deg{COL.end}")
