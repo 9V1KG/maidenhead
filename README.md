@@ -23,3 +23,25 @@ two locator positions. Put your own locator as constant.
 
     MY_LOC = "XXddxxddxx"
     
+## Installation
+
+Install in a project folder with its own virtual environment
+
+    # make project directory
+    mkdir ~/maiden
+    cd maiden
+    # create and activate virtual environment
+    python3 -m venv venv
+    source venv/bin/activate
+
+Get module from git and run
+
+    git clone https://github.com/9V1KG/maidenhead.git
+    cd ~/maiden/maidenhead
+    python3 setup.py install
+    python3 -m maiden
+    
+    
+    
+    
+    
