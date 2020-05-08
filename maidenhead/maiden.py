@@ -9,8 +9,21 @@
 """
 import re
 import math
-from maidenhead import mhconv
+from collections import namedtuple
 
+Col = namedtuple(
+    'color',
+    ['red', 'green', 'yellow', 'blue', 'purple', 'cyan', 'bold', 'end']
+)
+COL = Col(red="\033[1;31;48m",
+          green="\033[1;32;48m",
+          yellow="\033[1;33;48m",
+          blue="\033[1;34;48m",
+          purple="\033[1;35;48m",
+          cyan="\033[1;36;48m",
+          bold="\033[1;37;48m",
+          end="\033[1;37;0m"
+          )
 
 def line_input() -> tuple:
     """
@@ -195,7 +208,3 @@ class Geodg2dms:
             [self.lat_deg, self.lat_min, self.lat_sec, self.lat_dir,
              self.lon_deg, self.lon_min, self.lon_sec, self.lon_dir]
         )
-
-
-if __name__ == "__main__":
-    mhconv.main()

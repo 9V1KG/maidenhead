@@ -1,0 +1,6 @@
+__pycache__
+.coverage
+.idea/
+Doc/build
+coverage.txt
+venv
