@@ -3,7 +3,7 @@
     Input geographical position, locator or Google plus code
     Author: 9V1KG Klaus D Goepel
     https://klsin.bpmsg.com
-    https://github.com/9V1KG/Maiden
+    https://github.com/9V1KG/maidenhead
     Created On      : 2020-05-02
     Last Modified On: 2020-05-08
     License: http://www.fsf.org/copyleft/gpl.html
@@ -25,7 +25,7 @@ Maidenhead locator program by 9V1KG
 
 Input geographical position, maidenhead locator or Google plus code
 to convert. Locator is calculated with 10 characters.
-https://github.com/9V1KG/Maiden
+https://github.com/9V1KG/mqaidenhead
         """)
     get_in = maidenhead.maiden.line_input()
     if get_in[0] == 1:
@@ -58,7 +58,9 @@ https://github.com/9V1KG/Maiden
         print(f"\r\n{COL.green}Calculate Maidenhead locator from Google plus code{COL.end}")
         print(SWITCH[get_in[0]], get_in[1])
         res = olc.decode(get_in[1])
-        print(f"Lat: {res.latitudeCenter}, Lon: {res.longitudeCenter}")
+        print(
+            f"Lat: {round(res.latitudeCenter, 6)}, "
+            f"Lon: {round(res.longitudeCenter, 6)}")
         pdms_b = maidenhead.Geodg2dms((res.latitudeCenter, res.longitudeCenter))
         print(f"Result:  {COL.yellow}"
               f"{pdms_b.lat_deg} {pdms_b.lat_min}'{pdms_b.lat_sec}\"{pdms_b.lat_dir}, "

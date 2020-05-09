@@ -1,9 +1,10 @@
 """
 Unit tests for module maiden
-Maidenhead locator funtions
+Maidenhead locator functions
 """
-from unittest import TestCase
-from maidenhead.maiden import Maiden, Geodg2dms
+from unittest import TestCase, mock
+from unittest.mock import patch
+from maidenhead.maiden import Maiden, Geodg2dms, line_input
 
 
 class TestMaiden(TestCase):
@@ -64,6 +65,13 @@ class TestMaiden(TestCase):
         self.assertEqual(Geodg2dms((14.5, 120.5)).lon_dir, "E")
         self.assertEqual(Geodg2dms((14.5, -120.5)).lon_dir, "W")
 
+    def test_line_input(self):
+        with patch('builtins.input', return_value="1.337953, 103.934367") as mock_input:
+            self.assertEqual(line_input(), (1, (1.337953, 103.934367)))
+        with patch('builtins.input', return_value="OJ11xi22") as mock_input:
+            self.assertEqual(line_input(), (2, ("OJ11xi22")))
+        with patch('builtins.input', return_value="6PH58WQP+R5") as mock_input:
+            self.assertEqual(line_input(), (3, ("6PH58WQP+R5")))
 
 
 

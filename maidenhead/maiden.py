@@ -2,7 +2,7 @@
     Module with functions for maidenhead locator calculations
     Author: 9V1KG Klaus D Goepel
     https://klsin.bpmsg.com
-    https://github.com/9V1KG/Maiden
+    https://github.com/9V1KG/maidenhead
     Created On      : 2020-05-02
     Last Modified On: 2020-05-03
     License: http://www.fsf.org/copyleft/gpl.html

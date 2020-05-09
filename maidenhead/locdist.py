@@ -2,7 +2,7 @@
     Calculate distance and azimuth from to locator positions
     Author: 9V1KG Klaus D Goepel
     https://klsin.bpmsg.com
-    https://github.com/9V1KG/Maiden
+    https://github.com/9V1KG/maidenhead
     Created: 2020-05-02
     License: http://www.fsf.org/copyleft/gpl.html
 """
@@ -18,7 +18,7 @@ COL = maidenhead.maiden.COL
 MAIDEN = Maiden()  # Initialize class
 print("""
 Maidenhead locator program by 9V1KG
-https://github.com/9V1KG/Maiden
+https://github.com/9V1KG/maidenhead
         """)
 print(f"{COL.green}Calculates distance and azimuth from your locator (\"MY_LOC\"){COL.end}")
 print(f"My locator: {MY_LOC}")

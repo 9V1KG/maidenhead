@@ -39,6 +39,7 @@ Install with its own virtual environment
     python3 -m venv venv
     source venv/bin/activate
     python setup.py install
+    # python setup.py install --user (Raspi)
 
 Run conversion and distance calculation
 

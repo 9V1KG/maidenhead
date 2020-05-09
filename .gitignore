@@ -3,8 +3,5 @@ __pycache__
 .idea/
 Doc/build
 coverage.txt
-<<<<<<< HEAD
-
-=======
 venv
->>>>>>> origin/master
+
